@@ -1,6 +1,7 @@
 import 'package:AYT_Attendence/Widgets/AppConfig.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:timelines/timelines.dart';
 
 class GeneralTaskScreen extends StatefulWidget {
   @override
@@ -11,7 +12,7 @@ class GeneralTaskScreen extends StatefulWidget {
 
 class GeneralTaskState extends State<GeneralTaskScreen> {
 
-  int _bottomBarIndex = 0;
+  List taskList = ['Low','Medium','High','Urgent'];
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -19,10 +20,19 @@ class GeneralTaskState extends State<GeneralTaskScreen> {
         backgroundColor: AppConfig.appColorMain,
         title: Padding(
           padding: const EdgeInsets.only(left: 6.0, top: 5.0),
-          child: Text("Task",style: TextStyle(color: AppConfig.appBarTextColor),)
+          child: Text("General Task",style: TextStyle(color: AppConfig.appBarTextColor),)
         ),
       ), //AppBar ,
-      //body:VerticalBar(),
+      body: Container(
+        margin: EdgeInsets.symmetric(horizontal: 5,vertical: 20),
+        child: Timeline.tileBuilder(
+          builder: TimelineTileBuilder.fromStyle(
+            contentsAlign: ContentsAlign.reverse,
+            contentsBuilder: (context, index) => Text(taskList[index]),
+            itemCount: 4,
+          ),
+        ),
+      ),
     );
   }
 }

@@ -614,13 +614,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.10.0-nullsafety.1"
-  step_progress_indicator:
-    dependency: "direct main"
-    description:
-      name: step_progress_indicator
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "0.2.5+8"
   stream_channel:
     dependency: transitive
     description:
@@ -656,6 +649,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "0.2.19-nullsafety.2"
+  timelines:
+    dependency: "direct main"
+    description:
+      name: timelines
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.0.2+1"
   timezone:
     dependency: transitive
     description:

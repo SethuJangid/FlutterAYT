@@ -1,4 +1,3 @@
-import 'package:AYT_Attendence/Screens/Task%20Pages/widgets/progress_indicator.dart';
 import 'package:AYT_Attendence/Widgets/AppConfig.dart';
 import 'package:flutter/material.dart';
 

@@ -14,7 +14,13 @@ class AppConfig {
   static Color snackBarIFColor = Color(0xff3fcb03) ;
   static Color snackBarELSEColor = Color(0xfff10317) ;
   static Color fixedBarColor = Color(0xFFFFE0B2) ;
+
   static Color fixedCardColor = Color(0xFFFAF6F0) ;
+
+  static Color lowColor = Color(0xff001741) ;
+  static Color highColor = Color(0xFF255703) ;
+  static Color urgentColor = Color(0xFFEAD304) ;
+  static Color mediumColor = Color(0xFFC70116) ;
   /////////////
   static String appIcon ;
   static String appIconDefault = "assets/payroll_app_icon.png";

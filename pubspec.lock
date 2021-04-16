@@ -649,13 +649,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "0.2.19-nullsafety.2"
-  timelines:
+  timeline_widget:
     dependency: "direct main"
     description:
-      name: timelines
+      name: timeline_widget
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.0.2+1"
+    version: "1.0.6"
   timezone:
     dependency: transitive
     description:

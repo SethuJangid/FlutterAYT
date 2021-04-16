@@ -2,7 +2,6 @@ import 'package:AYT_Attendence/Screens/Task%20Pages/GeneralTaskScreen.dart';
 import 'package:AYT_Attendence/Screens/Task%20Pages/ProjectTaskScreen.dart';
 import 'package:AYT_Attendence/Screens/Task%20Pages/widgets/dashed_rect.dart';
 import 'package:AYT_Attendence/Screens/Task%20Pages/widgets/heading.dart';
-import 'package:AYT_Attendence/Screens/Task%20Pages/widgets/progress_indicator.dart';
 import 'package:AYT_Attendence/Screens/Task%20Pages/widgets/project_card_tile.dart';
 import 'package:AYT_Attendence/Widgets/AppConfig.dart';
 import 'package:flutter/cupertino.dart';
@@ -23,21 +22,6 @@ class TaskDashboard extends StatelessWidget {
             padding: const EdgeInsets.only(left: 6.0, top: 5.0),
             child: Text("Task",style: TextStyle(color: AppConfig.appBarTextColor),)
         ),
-        actions: <Widget>[
-          Padding(
-            padding: const EdgeInsets.only(right: 18.0, top: 8.0),
-            child: Container(
-              decoration: BoxDecoration(
-                  borderRadius: new BorderRadius.circular(8.0),
-                  image:
-                  DecorationImage(image: AssetImage(
-                      AppConfig.appIcon==null?AppConfig.appIconDefault:AppConfig.appIcon
-                  ))),
-              width: 40.0,
-              height: 40.0,
-            ),
-          ),
-        ],
       ),
       body: SingleChildScrollView(
         scrollDirection: Axis.vertical,

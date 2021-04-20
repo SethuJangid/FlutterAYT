@@ -96,8 +96,8 @@ class _DashboardState extends State<Dashboard> {
   }
 
   signIn() async {
-    print("EMAIL LOGIN--->"+useremail);
-    print("PASSWORD LOGIN--->"+userpassword);
+    print("EMAIL LOGIN--->" + useremail);
+    print("PASSWORD LOGIN--->" + userpassword);
     await authService
         .signInWithEmailAndPassword(useremail, userpassword)
         .then((result) async {
@@ -144,21 +144,19 @@ class _DashboardState extends State<Dashboard> {
       });
     } catch (signUpError) {
       QuerySnapshot userInfoSnapshot =
-      await DatabaseMethods2().getUserInfo(useremail);
+          await DatabaseMethods2().getUserInfo(useremail);
       final FirebaseAuth _auth = FirebaseAuth.instance;
       var email;
       email = userInfoSnapshot.documents[0].data()["userEmail"];
-      if(email == useremail){
+      if (email == useremail) {
         signIn();
       }
-
     }
   }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: SingleChildScrollView(
+    return SingleChildScrollView(
         scrollDirection: Axis.vertical,
         physics: AlwaysScrollableScrollPhysics(),
         child: RefreshIndicator(
@@ -208,13 +206,10 @@ class _DashboardState extends State<Dashboard> {
             ),
           ),
         ),
-      ),
     );
-
-
   }
 
-  Future<Null> _refreshLocalGallery() async{
+  Future<Null> _refreshLocalGallery() async {
     print('refreshing stocks...');
   }
 
@@ -278,5 +273,4 @@ class _DashboardState extends State<Dashboard> {
           'Your OTP is Not Correct'),backgroundColor: Colors.green,));*/
     }
   }
-
 }

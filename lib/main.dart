@@ -1,5 +1,6 @@
 import 'package:AYT_Attendence/Screens/Splash/splashscreen.dart';
 import 'package:AYT_Attendence/Screens/Task%20Pages/GeneralTaskScreen.dart';
+import 'package:AYT_Attendence/Screens/Task%20Pages/Task%20Details.dart';
 import 'package:AYT_Attendence/Screens/Task%20Pages/TaskDashboard.dart';
 import 'package:AYT_Attendence/Screens/notification/NotificationScreen.dart';
 import 'package:AYT_Attendence/pages/FCM.dart';
@@ -136,14 +137,14 @@ class MyHomePageState extends State<MyHomePage> {
                 /*appBar: AppBar(
                     title: Text('Raindrop App'),
                   ),*/
-                  //body: SplashScreenPage()
-                  body: TaskDashboard()
+                  body: ShowPDF()
+                  //body: TaskDashboard()
               ),
-              /*IgnorePointer(
+              IgnorePointer(
                   child: AnimationScreen(
                       color: Colors.blue[1000]
                   )
-              )*/
+              )
             ]
         )
     );

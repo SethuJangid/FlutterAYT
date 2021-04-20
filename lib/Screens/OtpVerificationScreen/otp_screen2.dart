@@ -17,26 +17,7 @@ class OTPScreen extends StatefulWidget {
   final String opt;
   final String phone;
 
-
-
   OTPScreen({this.opt,this.phone,});
-
-  /*Future<MainProfileModel> loadUserData()async{
-    String url = 'http://adiyogitechnosoft.com/attendance_dev/api2/employee/verify_otp';
-    Map<String, String> headers = {'X-API-KEY': 'NODN2D0I7W4V8I2K'};
-    String json = jsonEncode({"phone":phone,"otp": opt ,"fcm_id":fcmID});
-    print(json);
-    final http.Response response = await http.post(url,body:json);
-    Map jasonData = jsonDecode(response.body);
-    bool statusCode = jasonData['status'];
-    print(statusCode);
-    print(jasonData);
-    if(statusCode==true){
-      return new MainProfileModel.fromJson(jasonData);
-    }else{
-
-    }
-  }*/
 
   @override
   _OTPScreenState createState() => _OTPScreenState();
@@ -81,7 +62,7 @@ class _OTPScreenState extends State<OTPScreen> {
                     fit: BoxFit.fill,
                     alignment: Alignment.topCenter,),
                   alignment: Alignment.center,
-                  color: AppConfig.appColorMainLight,
+                  color: AppConfig.appColorMain,
                   height: 300,
                 ),
                 Container(

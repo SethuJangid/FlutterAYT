@@ -1,11 +1,15 @@
 import 'dart:convert';
 
+import 'package:AYT_Attendence/API/api.dart';
+import 'package:AYT_Attendence/Screens/Task%20Pages/GeneralTaskDetails.dart';
+import 'package:AYT_Attendence/Screens/Task%20Pages/MilestonesDetail.dart';
+import 'package:AYT_Attendence/Screens/Task%20Pages/MilestonesPage.dart';
+import 'package:AYT_Attendence/Screens/Task%20Pages/Task%20Details.dart';
 import 'package:AYT_Attendence/Screens/Task%20Pages/models/GeneralTaskModel.dart';
 import 'package:AYT_Attendence/Widgets/AppConfig.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:timeline_widget/timeline_widget.dart';
 import 'package:http/http.dart' as http;
 
 class GeneralTaskScreen extends StatefulWidget {
@@ -17,22 +21,17 @@ class GeneralTaskScreen extends StatefulWidget {
 
 class GeneralTaskState extends State<GeneralTaskScreen> {
 
-  var priorityId;
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-    generalTask();
   }
-  /*getData(String id)async{
+  getData()async{
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
     setState(() {
-      //var priority = sharedPreferences.getString("priority_id");
-      priorityId = id;
-      print("#######-------> "+priorityId.toString());
-      //print("@@@@@@@@***********-------> "+priority);
+
     });
-  }*/
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -46,211 +45,260 @@ class GeneralTaskState extends State<GeneralTaskScreen> {
                 style: TextStyle(color: AppConfig.appBarTextColor),
               )),
         ), //AppBar ,
-        body: Container(
-          padding: EdgeInsets.symmetric(horizontal: 10,vertical: 20),
-          child: TimelineView(
-            align: TimelineAlign.rightAlign,
-            lineWidth: 4,
-            lineColor: Colors.deepOrange,
-            imageBorderColor: Colors.white,
-            image: [
-              Container(
-                  padding: EdgeInsets.all(15),
-            color: AppConfig.lowColor),
-              Container(
-                  padding: EdgeInsets.all(15),
-                  color: AppConfig.mediumColor),
-              Container(
-                  padding: EdgeInsets.all(15),
-                  color: AppConfig.highColor),
-              Container(
-                  padding: EdgeInsets.all(15),
-                  color: AppConfig.urgentColor),
-            ],
-            height: 200,
-            width: MediaQuery.of(context).size.width,
-            imageHeight: 50,
+        body: SingleChildScrollView(
+          scrollDirection: Axis.vertical,
+          child: Column(
             children: [
               Container(
-                  margin: EdgeInsets.fromLTRB(0, 0, 20, 0),
-                  child: _widgetWeather()
+                margin:EdgeInsets.symmetric(horizontal: 30,vertical: 10),
+                child: Row(
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Row(
+                        children: [
+                          ClipRRect(
+                            borderRadius: BorderRadius.circular(100),
+                            child: Container(
+                              height: 20,
+                              width: 20,
+                              color: AppConfig.lowColor,
+                            ),
+                          ),
+                          Text("Low"),
+                        ],
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Row(
+                        children: [
+                          ClipRRect(
+                            borderRadius: BorderRadius.circular(100),
+                            child: Container(
+                              height: 20,
+                              width: 20,
+                              color: AppConfig.mediumColor,
+                            ),
+                          ),
+                          Text("Medium"),
+                        ],
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Row(
+                        children: [
+                          ClipRRect(
+                            borderRadius: BorderRadius.circular(100),
+                            child: Container(
+                              height: 20,
+                              width: 20,
+                              color: AppConfig.highColor,
+                            ),
+                          ),
+                          Text("High"),
+                        ],
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Row(
+                        children: [
+                          ClipRRect(
+                            borderRadius: BorderRadius.circular(100),
+                            child: Container(
+                              height: 20,
+                              width: 20,
+                              color: AppConfig.urgentColor,
+                            ),
+                          ),
+                          Text("Urgent")
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
               ),
-              Container(
-                  margin: EdgeInsets.fromLTRB(0, 0, 20, 0),
-                  child:  _widgetWeather()
-              ),
-              Container(
-                  margin: EdgeInsets.fromLTRB(0, 0, 20, 0),
-                  child: _widgetWeather()
-              ),
-              Container(
-                  margin: EdgeInsets.fromLTRB(0, 0, 20, 0),
-                  child:  _widgetWeather()
-              ),
+              _widgetWeather(),
             ],
           ),
-        ),
+        )
     );
   }
 
   Widget _widgetWeather() {
-    return priorityId!=null?FutureBuilder<GeneralTaskModel>(
+    return FutureBuilder<GeneralTaskModel>(
       future: generalTask(),
       builder: (context, snapshot) {
-        print("data--->"+snapshot.data.msg);
-        return Container(
-            height: 100,
-            child: ListView.builder(
-                itemCount: snapshot.data.data.length,//snapshot.data.data.length,
-                shrinkWrap: true,
-                scrollDirection: Axis.horizontal,
-                itemBuilder: (context, index) {
-                  var task = snapshot.data.data[index];
-                  //priorityId = task.priorityId;
-                  print("---------> "+snapshot.data.data.length.toString());
-                  return task.priorityId=="1"?Container(
-                    margin: EdgeInsets.all(10),
-                    padding: EdgeInsets.fromLTRB(20, 10, 20, 10),
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(10.0),
-                      boxShadow: [
-                        BoxShadow(
-                          color: Colors.grey,
-                          spreadRadius: 1.0,
-                          blurRadius: 30.0,
-                        ),
-                      ],
-                    ),
+        if (snapshot.hasData) {
+          var imgPath = All_API().baseurl_img+snapshot.data.path;
+          return ListView.builder(
+              itemCount: snapshot.data.data.length, //snapshot.data.data.length,
+              shrinkWrap: true,
+              scrollDirection: Axis.vertical,
+              itemBuilder: (context, index) {
+                var task = snapshot.data.data[index];
+                var priorityId = task.priorityId;
+                var dateStart = task.startTime.toIso8601String();
+                var date = dateStart.split(" ");
+                var startDate = date[0].toString().split("T");
+                var dateEnd = task.startTime.toIso8601String();
+                var date2 = dateEnd.split(" ");
+                var endDate = date2[0].toString().split("T");
+                print("---------> " + startDate.first + " " + endDate.first);
+                return Padding(
+                  padding: const EdgeInsets.symmetric(
+                      horizontal: 5, vertical: 2),
+                  child: Card(
+                    elevation: 8,
+                    color: AppConfig.colorWhite,
                     child: Column(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: <Widget>[
-                        Text(
-                          task.name,
-                          maxLines: 2,
-                          overflow: TextOverflow.ellipsis,
-                          textAlign: TextAlign.center,
+                      children: [
+                        Container(
+                          decoration: BoxDecoration(
+                              border: Border(
+                                  bottom: BorderSide(
+                                      width: 8,
+                                      color: priorityId == "1" ? AppConfig
+                                          .lowColor :
+                                      priorityId == "2"
+                                          ? AppConfig.mediumColor
+                                          :
+                                      priorityId == "3" ? AppConfig.highColor :
+                                      priorityId == "4"
+                                          ? AppConfig.urgentColor
+                                          : AppConfig.colorWhite)
+                              )
+                          ),
+                          child: ListTile(
+                              contentPadding: EdgeInsets.symmetric(
+                                  horizontal: 10.0, vertical: 10.0),
+                              title: Padding(
+                                padding: const EdgeInsets.all(4.0),
+                                child: Text(
+                                  task.name,
+                                  style: TextStyle(
+                                      fontSize: 14,
+                                      color: Colors.orange,
+                                      fontWeight: FontWeight.w400),
+                                ),
+                              ),
+                              subtitle: Column(
+                                children: [
+                                  Row(
+                                    children: [
+                                      Padding(
+                                          padding: EdgeInsets.only(left: 5.0)),
+                                      Text(task.description,
+                                        style: TextStyle(fontSize: 15,
+                                            color: Colors.black54),
+                                      ),
+                                    ],
+                                  ),
+                                  Row(
+                                    children: [
+                                      Padding(
+                                        padding: const EdgeInsets.all(4.0),
+                                        child: Icon(
+                                            Icons.date_range_rounded,
+                                            color: AppConfig.fontColor),
+                                      ),
+                                      Text(
+                                        startDate.first + " To " +
+                                            endDate.first,
+                                        style: TextStyle(
+                                            fontSize: 14,
+                                            color:
+                                            Colors.black54,
+                                            fontWeight:
+                                            FontWeight
+                                                .w600),
+                                      ),
+                                    ],
+                                  ),
+                                ],
+                              ),
+                              trailing: GestureDetector(
+                                onTap: () {
+                                  Navigator.push(
+                                      context,
+                                      MaterialPageRoute(builder: (context) =>
+                                          TaskDetailPage(
+                                            startDate: startDate.first,
+                                            endDate: endDate.first,
+                                            name: task.name,
+                                            taskColor: priorityId == "1" ? AppConfig
+                                                .lowColor :
+                                            priorityId == "2"
+                                                ? AppConfig.mediumColor
+                                                :
+                                            priorityId == "3" ? AppConfig.highColor :
+                                            priorityId == "4"
+                                                ? AppConfig.urgentColor
+                                                : AppConfig.colorWhite,
+                                            priority: priorityId == "1" ? "Low" :
+                                            priorityId == "2"
+                                                ? "Medium"
+                                                :
+                                            priorityId == "3" ? "High" :
+                                            priorityId == "4"
+                                                ? "Urgent"
+                                                : "",
+                                            description: task.description,
+                                            document: task.documents,
+                                            path: imgPath+"/"
+                                          )
+                                      )
+                                  );
+                                },
+                                child: Icon(
+                                  Icons.visibility_outlined,
+                                  color: Colors.black54,
+                                  size: 25.0,
+                                ),
+                              )
+                          ),
                         ),
-                        Text(
-                          task.description,
-                          maxLines: 2,
-                          overflow: TextOverflow.ellipsis,
-                          textAlign: TextAlign.center,
-                        ),
+                        /*Container(
+                          alignment: Alignment.bottomRight,
+                          child: Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: GestureDetector(
+                              onTap: () {
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(builder: (context) =>
+                                        GeneralTaskDetailPage(
+                                          startDate: startDate.first,
+                                          endDate: endDate.first,
+                                          name: task.name,
+                                        )));
+                              },
+                              child: Text("Detail", textAlign: TextAlign.end,),
+                            ),
+                          ),
+                        )*/
                       ],
                     ),
-                  ):
-                  task.priorityId=="2"?Container(
-                    margin: EdgeInsets.all(10),
-                    padding: EdgeInsets.fromLTRB(20, 10, 20, 10),
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(10.0),
-                      boxShadow: [
-                        BoxShadow(
-                          color: Colors.grey,
-                          spreadRadius: 1.0,
-                          blurRadius: 30.0,
-                        ),
-                      ],
-                    ),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: <Widget>[
-                        Text(
-                          task.name,
-                          maxLines: 2,
-                          overflow: TextOverflow.ellipsis,
-                          textAlign: TextAlign.center,
-                        ),
-                        Text(
-                          task.description,
-                          maxLines: 2,
-                          overflow: TextOverflow.ellipsis,
-                          textAlign: TextAlign.center,
-                        ),
-                      ],
-                    ),
-                  ):
-                  task.priorityId=="3"?Container(
-                    margin: EdgeInsets.all(10),
-                    padding: EdgeInsets.fromLTRB(20, 10, 20, 10),
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(10.0),
-                      boxShadow: [
-                        BoxShadow(
-                          color: Colors.grey,
-                          spreadRadius: 1.0,
-                          blurRadius: 30.0,
-                        ),
-                      ],
-                    ),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: <Widget>[
-                        Text(
-                          task.name,
-                          maxLines: 2,
-                          overflow: TextOverflow.ellipsis,
-                          textAlign: TextAlign.center,
-                        ),
-                        Text(
-                          task.description,
-                          maxLines: 2,
-                          overflow: TextOverflow.ellipsis,
-                          textAlign: TextAlign.center,
-                        ),
-                      ],
-                    ),
-                  ):
-                  task.priorityId=="4"?Container(
-                    margin: EdgeInsets.all(10),
-                    padding: EdgeInsets.fromLTRB(20, 10, 20, 10),
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(10.0),
-                      boxShadow: [
-                        BoxShadow(
-                          color: Colors.grey,
-                          spreadRadius: 1.0,
-                          blurRadius: 30.0,
-                        ),
-                      ],
-                    ),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: <Widget>[
-                        Text(
-                          task.name,
-                          maxLines: 2,
-                          overflow: TextOverflow.ellipsis,
-                          textAlign: TextAlign.center,
-                        ),
-                        Text(
-                          task.description,
-                          maxLines: 2,
-                          overflow: TextOverflow.ellipsis,
-                          textAlign: TextAlign.center,
-                        ),
-                      ],
-                    ),
-                  ):Container();
-                }
-            ),
+                  ),
+                );
+              }
           );
+        }
+        return Center(child: CircularProgressIndicator());
       }
-    ):Container();
+    );
+
   }
 
-  Future generalTask() async {
+  Future<GeneralTaskModel> generalTask() async {
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
     var headers = {
-      'X-API-KEY': 'NODN2D0I7W4V8I2K',
-      'Cookie': 'ci_session=i7l3ruft0led5lldcvul3ho5m0l8ccsj'
+      All_API().key: All_API().keyvalue,
     };
-    var request = http.Request(
-        'GET', Uri.parse('https://technolite.in/hrpayroll/api/general_task'));
+    var request = http.Request('GET', Uri.parse(All_API().baseurl+All_API().api_general_task));
+    request.body = '''{"employee_id":"NODI3C7X1H9M3K9V3Q2E5Z"}''';
 
     request.headers.addAll(headers);
     request.followRedirects = false;
@@ -258,22 +306,7 @@ class GeneralTaskState extends State<GeneralTaskScreen> {
     http.StreamedResponse streamedResponse = await request.send();
 
     var response = await http.Response.fromStream(streamedResponse);
-    /*if (response.statusCode == 200) {
-      print("General Task--->" + response.body);
-      Map json = jsonDecode(response.body);
-        //sharedPreferences.setString('priority_id',json['data'][i]['priority_id']);
-        print("@@@@@@-------> "+json['data'][json.length]['priority_id'].toString());
-        var id = json['data'][json.length]['priority_id'].toString();
-        //getData(id);
-
-      return GeneralTaskModel.fromJson(json);
-
-    } else {
-      print(response.reasonPhrase);
-    }*/
     Map json = jsonDecode(response.body);
-    print("@@@@@@-------> "+json['data'][0]['priority_id'].toString());
-    priorityId = json['data'][0]['priority_id'].toString();
 
     return GeneralTaskModel.fromJson(json);
   }

@@ -2,8 +2,9 @@ import 'dart:convert';
 
 import 'package:AYT_Attendence/API/api.dart';
 import 'package:AYT_Attendence/Screens/Task%20Pages/MilestonesDetail.dart';
-import 'package:AYT_Attendence/Screens/Task%20Pages/MilestonesPage.dart';
 import 'package:AYT_Attendence/Screens/Task%20Pages/ProjectTaskDetails.dart';
+import 'package:AYT_Attendence/Screens/Task%20Pages/TaskList.dart';
+import 'package:AYT_Attendence/Screens/Task%20Pages/models/MilestoneListModel.dart';
 import 'package:AYT_Attendence/Screens/Task%20Pages/models/ProjectTaskModel.dart';
 import 'package:AYT_Attendence/Widgets/AppConfig.dart';
 import 'package:flutter/cupertino.dart';
@@ -11,13 +12,14 @@ import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
 
-class ProjectTaskScreen extends StatefulWidget {
+class MilestonesPage extends StatefulWidget {
+  String projectID;
+  MilestonesPage({this.projectID});
   @override
   _ProjectTaskScreenState createState() => _ProjectTaskScreenState();
 }
 
-class _ProjectTaskScreenState extends State<ProjectTaskScreen> {
-  String uniq_id;
+class _ProjectTaskScreenState extends State<MilestonesPage> {
   @override
   void initState() {
     // TODO: implement initState
@@ -27,7 +29,7 @@ class _ProjectTaskScreenState extends State<ProjectTaskScreen> {
   getData()async{
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
     setState(() {
-      uniq_id = sharedPreferences.getString("unique_id");
+
     });
   }
 
@@ -39,7 +41,7 @@ class _ProjectTaskScreenState extends State<ProjectTaskScreen> {
           title: Padding(
               padding: const EdgeInsets.only(left: 6.0, top: 5.0),
               child: Text(
-                "Project Task",
+                "Milestones List",
                 style: TextStyle(color: AppConfig.appBarTextColor),
               )),
         ), //AppBar ,
@@ -55,8 +57,8 @@ class _ProjectTaskScreenState extends State<ProjectTaskScreen> {
   }
 
   Widget _widgetWeather() {
-    return FutureBuilder<ProjectTaskModel>(
-        future: projectTask(),
+    return FutureBuilder<MilestoneListModel>(
+        future: milestone(),
         builder: (context, snapshot) {
           if (snapshot.hasData) {
             return ListView.builder(
@@ -72,7 +74,6 @@ class _ProjectTaskScreenState extends State<ProjectTaskScreen> {
                   var date2 = dateEnd.split(" ");
                   var endDate = date2[0].toString().split("T");
                   print("---------> " + startDate.first + " " + endDate.first);
-                  print("image---------> " + snapshot.data.path+"/"+task.documents);
                   return Padding(
                     padding: const EdgeInsets.symmetric(
                         horizontal: 5, vertical: 2),
@@ -108,8 +109,9 @@ class _ProjectTaskScreenState extends State<ProjectTaskScreen> {
                                       children: [
                                         Padding(
                                             padding: EdgeInsets.only(left: 5.0)),
-                                        Image.network(All_API().baseurl_img+snapshot.data.path+"/"+task.documents,
-                                          height: 20,
+                                        Text(task.description,
+                                          style: TextStyle(fontSize: 10,
+                                              color: Colors.black),
                                         ),
                                       ],
                                     ),
@@ -141,9 +143,9 @@ class _ProjectTaskScreenState extends State<ProjectTaskScreen> {
                                     Navigator.push(
                                         context,
                                         MaterialPageRoute(builder: (context) =>
-                                            MilestonesPage(projectID: task.id,)
-                                        )
-                                    );
+                                            TaskList(
+                                              milestoneID: task.id,
+                                            )));
                                   },
                                   child: Icon(
                                     Icons.visibility_outlined,
@@ -154,24 +156,24 @@ class _ProjectTaskScreenState extends State<ProjectTaskScreen> {
                             ),
                           ),
                           Container(
-                          alignment: Alignment.bottomRight,
-                          child: Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: GestureDetector(
-                              onTap: () {
-                                Navigator.push(
-                                    context,
-                                    MaterialPageRoute(builder: (context) =>
-                                        ProjectTaskDetailPage(
-                                          startDate: startDate.first,
-                                          endDate: endDate.first,
-                                          name: task.name,
-                                        )));
-                              },
-                              child: Text("Detail",style: TextStyle(fontSize: 15,fontWeight: FontWeight.bold), textAlign: TextAlign.end,),
+                            alignment: Alignment.bottomRight,
+                            child: Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: GestureDetector(
+                                onTap: () {
+                                  Navigator.push(
+                                      context,
+                                      MaterialPageRoute(builder: (context) =>
+                                          MilestonesDetails(
+                                            startDate: startDate.first,
+                                            endDate: endDate.first,
+                                            name: task.name,
+                                          )));
+                                },
+                                child: Text("Detail", textAlign: TextAlign.end,),
+                              ),
                             ),
-                          ),
-                        )
+                          )
                         ],
                       ),
                     ),
@@ -184,13 +186,13 @@ class _ProjectTaskScreenState extends State<ProjectTaskScreen> {
     );
   }
 
-  Future<ProjectTaskModel> projectTask() async {
+  Future<MilestoneListModel> milestone() async {
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
     var headers = {
       All_API().key: All_API().keyvalue,
     };
-    var request = http.Request('GET', Uri.parse(All_API().baseurl+All_API().api_project_task));
-    request.body = '{"employee_id":$uniq_id}';
+    var request = http.Request('GET', Uri.parse(All_API().baseurl+All_API().api_milestone_list+widget.projectID));
+
     request.headers.addAll(headers);
     request.followRedirects = false;
 
@@ -200,8 +202,8 @@ class _ProjectTaskScreenState extends State<ProjectTaskScreen> {
     Map json = jsonDecode(response.body);
 
     if (response.statusCode == 200) {
-      print("Project ------>"+response.body);
-      return ProjectTaskModel.fromJson(json);
+      print("Milestone List----->" +response.body);
+      return MilestoneListModel.fromJson(json);
     }
     else {
       print(response.reasonPhrase);

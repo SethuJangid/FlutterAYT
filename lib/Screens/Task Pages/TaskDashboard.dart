@@ -1,6 +1,5 @@
 import 'package:AYT_Attendence/Screens/Task%20Pages/GeneralTaskScreen.dart';
 import 'package:AYT_Attendence/Screens/Task%20Pages/ProjectTaskScreen.dart';
-import 'package:AYT_Attendence/Screens/Task%20Pages/widgets/dashed_rect.dart';
 import 'package:AYT_Attendence/Screens/Task%20Pages/widgets/heading.dart';
 import 'package:AYT_Attendence/Screens/Task%20Pages/widgets/project_card_tile.dart';
 import 'package:AYT_Attendence/Widgets/AppConfig.dart';
@@ -20,135 +19,131 @@ class TaskDashboard extends StatelessWidget {
         centerTitle: false,
         title: Padding(
             padding: const EdgeInsets.only(left: 6.0, top: 5.0),
-            child: Text("Task",style: TextStyle(color: AppConfig.appBarTextColor),)
-        ),
+            child: Text(
+              "Task",
+              style: TextStyle(color: AppConfig.appBarTextColor),
+            )),
       ),
-      body: SingleChildScrollView(
-        scrollDirection: Axis.vertical,
-        physics: AlwaysScrollableScrollPhysics(),
-        child: Column(children: [
-          SizedBox(
-            height: 22,
-          ),
-          Row(
-            mainAxisSize: MainAxisSize.max,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: [
-              GestureDetector(
-                onTap: (){
-                  Navigator.pushReplacement(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => GeneralTaskScreen()));
-                },
-                child: Card(
-                  color: Colors.orangeAccent,
-                  child: Padding(
-                    padding:
-                        const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
-                    child: Column(
-                      mainAxisSize: MainAxisSize.min,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        Image.network(
-                          AppConfig.generalTaskIcon,
-                          height: 150,
-                          width: 150,
-                          fit: BoxFit.fill,
-                        ),
-                        SizedBox(
-                          height: 10,
-                        ),
-                        Text(
-                          "General Task",
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontWeight: FontWeight.w700,
-                            fontSize: 15,
-                          ),
-                        ),
-                        SizedBox(
-                          height: 10,
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-              ),
-              GestureDetector(
-                onTap: (){
-                  Navigator.pushReplacement(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => ProjectTaskScreen()));
-                },
-                child: Card(
-                  color: Colors.orangeAccent,
-                  child: Padding(
-                    padding:
-                        const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
-                    child: Column(
-                      mainAxisSize: MainAxisSize.min,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        Image.network(
-                          AppConfig.projectTaskIcon,
-                          height: 150,
-                          width: 150,
-                          fit: BoxFit.fill,
-                        ),
-                        SizedBox(
-                          height: 10,
-                        ),
-                        Text(
-                          "Your Project",
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontWeight: FontWeight.w700,
-                            fontSize: 15,
-                          ),
-                        ),
-                        SizedBox(
-                          height: 10,
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-              ),
-            ],
-          ),
-          SizedBox(
-            height: 12,
-          ),
-          Heading(
-            text: Text(
-              "Recent Task",
-              style: TextStyle(fontSize: 24, fontWeight: FontWeight.w600),
+      body: Column(
+          mainAxisSize: MainAxisSize.max,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: [
+            SizedBox(
+              height: 22,
             ),
-            button: DottedBorder(
-                borderType: BorderType.RRect,
-                radius: Radius.circular(8),
-                color: Colors.grey,
-                child: Center(
-                  child: Icon(
-                    Icons.navigate_next,
-                    size: 28,
-                    color: Colors.orange,
+            Row(
+              mainAxisSize: MainAxisSize.max,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                GestureDetector(
+                  onTap: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => GeneralTaskScreen()));
+                  },
+                  child: Card(
+                    color: Colors.orangeAccent,
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 10, vertical: 10),
+                      child: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          Image.network(
+                            AppConfig.generalTaskIcon,
+                            height: 150,
+                            width: 150,
+                            fit: BoxFit.fill,
+                          ),
+                          SizedBox(
+                            height: 10,
+                          ),
+                          Text(
+                            "General Task",
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontWeight: FontWeight.w700,
+                              fontSize: 15,
+                            ),
+                          ),
+                          SizedBox(
+                            height: 10,
+                          ),
+                        ],
+                      ),
+                    ),
                   ),
                 ),
-                strokeWidth: 1,
-                dashPattern: [3, 4]),
-          ),
-          SizedBox(
-            height: 12.0,
-          ),
-          Container(
-            child: ProjectCardTile()
-          )
-        ]),
-      ),
+                GestureDetector(
+                  onTap: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => ProjectTaskScreen()));
+                  },
+                  child: Card(
+                    color: Colors.orangeAccent,
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 10, vertical: 10),
+                      child: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          Image.network(
+                            AppConfig.projectTaskIcon,
+                            height: 150,
+                            width: 150,
+                            fit: BoxFit.fill,
+                          ),
+                          SizedBox(
+                            height: 10,
+                          ),
+                          Text(
+                            "Your Project",
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontWeight: FontWeight.w700,
+                              fontSize: 15,
+                            ),
+                          ),
+                          SizedBox(
+                            height: 10,
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+            SizedBox(
+              height: 12,
+            ),
+            Container(
+              alignment: Alignment.topLeft,
+              margin: EdgeInsets.symmetric(
+                horizontal: 10,
+              ),
+              child: Text(
+                "Recent Task",
+                style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                textAlign: TextAlign.start,
+              ),
+            ),
+            SizedBox(
+              height: 12,
+            ),
+            /*Container(child: ProjectCardTile())*/
+            Expanded(
+              flex: 4,
+              child: ProjectCardTile()
+            )
+          ]),
     );
   }
 }

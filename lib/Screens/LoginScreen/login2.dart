@@ -73,7 +73,7 @@ class _MyLoginState extends State<MyLogin2> {
                     fit: BoxFit.fill,
                     alignment: Alignment.topCenter,),
                   alignment: Alignment.center,
-                  color: AppConfig.appColorMainLight,
+                  color: AppConfig.appColorMain,
                   height: 300,
                 ),
                 Container(
@@ -185,8 +185,7 @@ class _MyLoginState extends State<MyLogin2> {
     // check the status code for the result
     int statusCode = response.statusCode;
     print("status--> " + statusCode.toString());
-    String bodydetial = response.body;
-    print(" body--> " + bodydetial);
+    print(" body--> " + response.body);
 
 
     if (response.statusCode == 200) {

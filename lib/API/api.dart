@@ -20,8 +20,8 @@ class All_API {
   final news_img_path ="/uploads/news/";
   final profile_img_path ="/uploads/employee/";
 
-  String baseurl="http://adiyogitechnosoft.com/demo_attendance/api/";
-  String baseurl_img="http://adiyogitechnosoft.com/demo_attendance";
+  String baseurl="https://technolite.in/hrpayroll/api/";
+  String baseurl_img="https://technolite.in/hrpayroll";
   
   String api_tack_dashboard= "employee/track_dashboard/";
   String api_login= "employee/employee_login";
@@ -96,6 +96,16 @@ class All_API {
 
 // ignore: non_constant_identifier_names
   String api_upload_expense="employee_expense";
+
+  String api_task_list = "task/task_get_by_id/";
+
+  String api_general_task="general_task";
+  String api_general_task_upload="employee_expense";
+
+  String api_project_task="project";
+  String api_project_task_upload="employee_expense";
+
+  String api_milestone_list="milestone/milestones_get_by_id/";
 
   // ignore: non_constant_identifier_names
   String api_update_expense="employee_expense/employee_expense_update";

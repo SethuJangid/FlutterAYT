@@ -1,6 +1,7 @@
 import 'package:AYT_Attendence/API/api.dart';
 import 'package:AYT_Attendence/Screens/Expenses/track_expenses.dart';
 import 'package:AYT_Attendence/Screens/LoginScreen/login2.dart';
+import 'package:AYT_Attendence/Screens/Task%20Pages/TaskDashboard.dart';
 import 'package:AYT_Attendence/Screens/chat2/Chating2.dart';
 import 'package:AYT_Attendence/Screens/chat2/database.dart';
 import 'package:AYT_Attendence/Screens/chat2/helperfunctions2.dart';
@@ -63,415 +64,436 @@ class _HomePageState extends State<HomePage> {
       uniqId = sharedPreferences.getString("unique_id");
       userphn = sharedPreferences.getString("phone");
       userimg = sharedPreferences.getString("image");
+      print("image"+path+userimg);
     });
   }
 
   @override
   Widget build(BuildContext context) {
     MediaQueryData mediaQuery = MediaQuery.of(context);
-    return SafeArea(
-      child: Scaffold(
-        appBar: AppBar(
-          title: Container(
-            margin: EdgeInsets.only(top: 0, bottom: 0, left: 0, right: 0),
-            child: Text(
-              'DASHBOARD',
-              style: TextStyle(color: AppConfig.appBarTextColor),
-            ),
+    return Scaffold(
+      appBar: AppBar(
+        title: Container(
+          margin: EdgeInsets.only(top: 0, bottom: 0, left: 0, right: 0),
+          child: Text(
+            'DASHBOARD',
+            style: TextStyle(color: AppConfig.appBarTextColor),
           ),
-          backgroundColor: AppConfig.appColorMain,
-          iconTheme: IconThemeData(color: AppConfig.buttonColor),
-          /* leading: new IconButton(
-              icon: new Icon(Icons.menu,size: 30,color: Colors.orange,),
-              onPressed: () {
-                setState(() {
-                  drawerStatus = drawerStatus == FSBStatus.FSB_OPEN ? FSBStatus.FSB_CLOSE : FSBStatus.FSB_OPEN;
-                });
-              },
-            ),*/
         ),
-        drawer: Container(
-            width: MediaQuery.of(context).size.width * 0.7,
-            child: Drawer(
-              child: ListView(
-                children: [
-                  Container(
-                    height: 200,
-                    child: DrawerHeader(
-                      decoration: BoxDecoration(color: Colors.blue[1000]),
-                      child: Container(
-                          child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: <Widget>[
-                          SizedBox(
-                            height: 5,
-                          ),
-                          ClipRRect(
-                            borderRadius:BorderRadius.circular(100),
-                            child: userimg==null?Image.network(
-                              AppConfig.userIconDefault,
-                              height: 100,
-                              width: 100,
-                              fit: BoxFit.fill,
-                            ):Image.network(
-                              userimg,
-                              height: 100,
-                              width: 100,
-                              fit: BoxFit.fill,
-                            ),
-                            /*child:userimg != null
-                                ? NetworkImage(
-                                    path + userimg,
-                                  )
-                                : NetworkImage(detualtImage),*/
-                          ),
-                          SizedBox(
-                            height: 20,
-                          ),
-                          name == null
-                              ? Text("ADIYOGI TECHNOSOFT")
-                              : Text("$name",
-                                  style: TextStyle(
-                                      fontSize: 18,
-                                      fontWeight: FontWeight.w600,
-                                      color: AppConfig.textColor)),
-                          userphn == null
-                              ? Text("**********")
-                              : Text("$userphn",
-                                  style: TextStyle(
-                                      fontSize: 14,
-                                      fontWeight: FontWeight.w300,
-                                      color: AppConfig.textColor)),
-                        ],
-                      )),
-                    ),
-                  ),
-                  ListTile(
-                    onTap: () {
-                      print("Tapped Profile");
-                      Navigator.of(context).push(MaterialPageRoute(
-                          builder: (context) => ProfileScreen()));
-                      //closeDrewer();
-                    },
-                    leading: Icon(
-                      Icons.person,
-                      color: Colors.blue[1000],
-                    ),
-                    title: Text(
-                      "Your Profile",
-                      style: TextStyle(
-                          fontSize: 16,
-                          fontWeight: FontWeight.w200,
-                          color: Colors.blue[1000]),
-                    ),
-                  ),
-                  ListTile(
-                    onTap: () {
-                      debugPrint("Tapped Notifications");
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => NotificationScreen(),
-                        ),
-                      );
-                    },
-                    leading: Icon(
-                      Icons.notifications,
-                      color: Colors.blue[1000],
-                    ),
-                    title: Text(
-                      "Notifications",
-                      style: TextStyle(
-                          fontSize: 16,
-                          fontWeight: FontWeight.w200,
-                          color: Colors.blue[1000]),
-                    ),
-                  ),
-                  ListTile(
-                    onTap: () {
-                      print("Tapped Chat");
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => userIsLoggedIn != null
-                              ? ChatRoom()
-                              : BottomNavBar(),
-                        ),
-                      );
-                    },
-                    leading: Icon(
-                      Icons.chat,
-                      color: Colors.blue[1000],
-                    ),
-                    title: Text(
-                      "Chat",
-                      style: TextStyle(
-                          fontSize: 16,
-                          fontWeight: FontWeight.w200,
-                          color: Colors.blue[1000]),
-                    ),
-                  ),
-                  Divider(
-                    height: 1,
-                    color: Colors.deepOrange,
-                  ),
-                  ListTile(
-                    onTap: () {
-                      debugPrint("Tapped General");
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => GeneralLeave(),
-                        ),
-                      );
-                    },
-                    leading: Icon(
-                      Icons.article,
-                      color: Colors.blue[1000],
-                    ),
-                    title: Text(
-                      "General Leave",
-                      style: TextStyle(
-                          fontSize: 16,
-                          fontWeight: FontWeight.w200,
-                          color: Colors.blue[1000]),
-                    ),
-                  ),
-                  ListTile(
-                    onTap: () {
-                      debugPrint("Tapped Track Attendance");
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => TrackAttendance(),
-                        ),
-                      );
-                    },
-                    leading: Icon(
-                      Icons.attribution_outlined,
-                      color: Colors.blue[1000],
-                    ),
-                    title: Text(
-                      "Track Attendance",
-                      style: TextStyle(
-                          fontSize: 16,
-                          fontWeight: FontWeight.w200,
-                          color: Colors.blue[1000]),
-                    ),
-                  ),
-                  ListTile(
-                    onTap: () {
-                      debugPrint("Tapped Track Leave");
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => MyTrackLeave(),
-                        ),
-                      );
-                    },
-                    leading: Icon(
-                      Icons.article,
-                      color: Colors.blue[1000],
-                    ),
-                    title: Text(
-                      "Track Leave",
-                      style: TextStyle(
-                          fontSize: 16,
-                          fontWeight: FontWeight.w200,
-                          color: Colors.blue[1000]),
-                    ),
-                  ),
-                  ListTile(
-                    onTap: () {
-                      debugPrint("Tapped Early Checkout");
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => EarlyCheckOutRequest(),
-                        ),
-                      );
-                    },
-                    leading: Icon(
-                      Icons.outbond_outlined,
-                      color: Colors.blue[1000],
-                    ),
-                    title: Text(
-                      "Early Checkout ",
-                      style: TextStyle(
-                          fontSize: 16,
-                          fontWeight: FontWeight.w200,
-                          color: Colors.blue[1000]),
-                    ),
-                  ),
-                  Divider(
-                    height: 1,
-                    color: Colors.deepOrange,
-                  ),
-                  ListTile(
-                    onTap: () {
-                      debugPrint("Tapped Expenses");
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => MyTrackExpenses(),
-                        ),
-                      );
-                    },
-                    leading: Icon(
-                      Icons.explicit,
-                      color: Colors.blue[1000],
-                    ),
-                    title: Text(
-                      "View Expenses",
-                      style: TextStyle(
-                          fontSize: 16,
-                          fontWeight: FontWeight.w200,
-                          color: Colors.blue[1000]),
-                    ),
-                  ),
-                  Divider(
-                    height: 1,
-                    color: Colors.deepOrange,
-                  ),
-                  ListTile(
-                    onTap: () {
-                      debugPrint("Tapped Salary");
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => SalaryList(),
-                        ),
-                      );
-                    },
-                    leading: Icon(
-                      Icons.money,
-                      color: Colors.blue[1000],
-                    ),
-                    title: Text(
-                      "Salary Report",
-                      style: TextStyle(
-                          fontSize: 16,
-                          fontWeight: FontWeight.w200,
-                          color: Colors.blue[1000]),
-                    ),
-                  ),
-                  Divider(
-                    height: 1,
-                    color: Colors.deepOrange,
-                  ),
-                  ListTile(
-                    onTap: () {
-                      debugPrint("Tapped Contact");
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => ContactPage(),
-                        ),
-                      );
-                    },
-                    leading: Icon(
-                      Icons.call,
-                      color: Colors.blue[1000],
-                    ),
-                    title: Text(
-                      "Contact Us",
-                      style: TextStyle(
-                          fontSize: 16,
-                          fontWeight: FontWeight.w200,
-                          color: Colors.blue[1000]),
-                    ),
-                  ),
-                  ListTile(
-                    onTap: () {
-                      debugPrint("Tapped About");
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => AboutPage(),
-                        ),
-                      );
-                    },
-                    leading: Icon(
-                      Icons.assignment_late,
-                      color: Colors.blue[1000],
-                    ),
-                    title: Text(
-                      "About Us",
-                      style: TextStyle(
-                          fontSize: 16,
-                          fontWeight: FontWeight.w200,
-                          color: Colors.blue[1000]),
-                    ),
-                  ),
-                  ListTile(
-                    onTap: () {
-                      debugPrint("Tapped Terms");
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => TremsCondition(),
-                        ),
-                      );
-                    },
-                    leading: Icon(
-                      Icons.assignment,
-                      color: Colors.blue[1000],
-                    ),
-                    title: Text(
-                      "Terms & Condition",
-                      style: TextStyle(
-                          fontSize: 16,
-                          fontWeight: FontWeight.w200,
-                          color: Colors.blue[1000]),
-                    ),
-                  ),
-                  ListTile(
-                    onTap: () {
-                      debugPrint("Tapped Salary");
-                      //Navigator.push(context, MaterialPageRoute(builder: (context) => ContactPage(),),);
-                    },
-                    leading: Icon(
-                      Icons.privacy_tip,
-                      color: Colors.blue[1000],
-                    ),
-                    title: Text(
-                      "Privacy Policy",
-                      style: TextStyle(
-                          fontSize: 16,
-                          fontWeight: FontWeight.w200,
-                          color: Colors.blue[1000]),
-                    ),
-                  ),
-                  Divider(
-                    height: 1,
-                    color: Colors.deepOrange,
-                  ),
-                  ListTile(
-                    onTap: () async {
-                      debugPrint("Tapped Log Out");
-                      if (uniqId.toString().isNotEmpty) {
-                        SharedPreferences sharedPreferences =
-                            await SharedPreferences.getInstance();
-                        sharedPreferences.setBool("loggedIn", false);
-                        Navigator.pushReplacement(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => MyLogin2(),
-                          ),
-                        );
-                      }
-                      //Navigator.push(context, MaterialPageRoute(builder: (context) => ContactPage(),),);
-                    },
-                    leading: Icon(Icons.exit_to_app, color: AppConfig.buttonColor),
-                    title: Text(
-                      "Log Out",
-                      style: TextStyle(color: AppConfig.appBarTextColor),
-                    ),
-                  ),
-                ],
-              ),
-            )),
+        backgroundColor: AppConfig.appColorMain,
+        iconTheme: IconThemeData(color: AppConfig.buttonColor),
+        /* leading: new IconButton(
+            icon: new Icon(Icons.menu,size: 30,color: Colors.orange,),
+            onPressed: () {
+              setState(() {
+                drawerStatus = drawerStatus == FSBStatus.FSB_OPEN ? FSBStatus.FSB_CLOSE : FSBStatus.FSB_OPEN;
+              });
+            },
+          ),*/
       ),
+      body: Dashboard(),
+      drawer: Container(
+          width: MediaQuery.of(context).size.width * 0.7,
+          child: Drawer(
+            child: ListView(
+              children: [
+                Container(
+                  height: 200,
+                  child: DrawerHeader(
+                    decoration: BoxDecoration(color: AppConfig.appColorMain),
+                    child: Container(
+                        child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: <Widget>[
+                        SizedBox(
+                          height: 5,
+                        ),
+                        ClipRRect(
+                          borderRadius:BorderRadius.circular(100),
+                          child: userimg==null?Image.network(
+                            AppConfig.userIconDefault,
+                            height: 100,
+                            width: 100,
+                            fit: BoxFit.fill,
+                          ):Image.network(
+                            path+userimg,
+                            height: 100,
+                            width: 100,
+                            fit: BoxFit.fill,
+                          ),
+                        ),
+                        SizedBox(
+                          height: 15,
+                        ),
+                        name == null
+                            ? Text("ADIYOGI TECHNOSOFT")
+                            : Text("$name",
+                                style: TextStyle(
+                                    fontSize: 18,
+                                    fontWeight: FontWeight.w600,
+                                    color: AppConfig.textColor)),
+                        userphn == null
+                            ? Text("**********")
+                            : Text("$userphn",
+                                style: TextStyle(
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.w300,
+                                    color: AppConfig.textColor)),
+                      ],
+                    )),
+                  ),
+                ),
+                ListTile(
+                  onTap: () {
+                    print("Tapped Profile");
+                    Navigator.of(context).push(MaterialPageRoute(
+                        builder: (context) => ProfileScreen()));
+                    //closeDrewer();
+                  },
+                  leading: Icon(
+                    Icons.person,
+                    color: AppConfig.appColorMain,
+                  ),
+                  title: Text(
+                    "Your Profile",
+                    style: TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.w200,
+                        color: AppConfig.appColorMain),
+                  ),
+                ),
+                ListTile(
+                  onTap: () {
+                    debugPrint("Tapped Notifications");
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => NotificationScreen(),
+                      ),
+                    );
+                  },
+                  leading: Icon(
+                    Icons.notifications,
+                    color: AppConfig.appColorMain,
+                  ),
+                  title: Text(
+                    "Notifications",
+                    style: TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.w200,
+                        color: AppConfig.appColorMain),
+                  ),
+                ),
+                ListTile(
+                  onTap: () {
+                    print("Tapped Chat");
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => userIsLoggedIn != null
+                            ? ChatRoom()
+                            : BottomNavBar(),
+                      ),
+                    );
+                  },
+                  leading: Icon(
+                    Icons.chat,
+                    color: AppConfig.appColorMain,
+                  ),
+                  title: Text(
+                    "Chat",
+                    style: TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.w200,
+                        color: AppConfig.appColorMain),
+                  ),
+                ),
+                Divider(
+                  height: 1,
+                  color: AppConfig.appBarTextColor,
+                ),
+                ListTile(
+                  onTap: () {
+                    debugPrint("Tapped General");
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => GeneralLeave(),
+                      ),
+                    );
+                  },
+                  leading: Icon(
+                    Icons.article,
+                    color: AppConfig.appColorMain,
+                  ),
+                  title: Text(
+                    "General Leave",
+                    style: TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.w200,
+                        color: AppConfig.appColorMain),
+                  ),
+                ),
+                ListTile(
+                  onTap: () {
+                    debugPrint("Tapped Track Attendance");
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => TrackAttendance(),
+                      ),
+                    );
+                  },
+                  leading: Icon(
+                    Icons.attribution_outlined,
+                    color: AppConfig.appColorMain,
+                  ),
+                  title: Text(
+                    "Track Attendance",
+                    style: TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.w200,
+                        color: AppConfig.appColorMain),
+                  ),
+                ),
+                ListTile(
+                  onTap: () {
+                    debugPrint("Tapped Track Leave");
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => MyTrackLeave(),
+                      ),
+                    );
+                  },
+                  leading: Icon(
+                    Icons.article,
+                    color: AppConfig.appColorMain,
+                  ),
+                  title: Text(
+                    "Track Leave",
+                    style: TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.w200,
+                        color: AppConfig.appColorMain),
+                  ),
+                ),
+                ListTile(
+                  onTap: () {
+                    debugPrint("Tapped Early Checkout");
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => EarlyCheckOutRequest(),
+                      ),
+                    );
+                  },
+                  leading: Icon(
+                    Icons.outbond_outlined,
+                    color: AppConfig.appColorMain,
+                  ),
+                  title: Text(
+                    "Early Checkout ",
+                    style: TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.w200,
+                        color: AppConfig.appColorMain),
+                  ),
+                ),
+                Divider(
+                  height: 1,
+                  color: AppConfig.appBarTextColor,
+                ),
+                ListTile(
+                  onTap: () {
+                    debugPrint("Tapped Expenses");
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => MyTrackExpenses(),
+                      ),
+                    );
+                  },
+                  leading: Icon(
+                    Icons.explicit,
+                    color: AppConfig.appColorMain,
+                  ),
+                  title: Text(
+                    "View Expenses",
+                    style: TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.w200,
+                        color: AppConfig.appColorMain),
+                  ),
+                ),
+                Divider(
+                  height: 1,
+                  color: AppConfig.appBarTextColor,
+                ),
+                ListTile(
+                  onTap: () {
+                    debugPrint("Tapped Task");
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => TaskDashboard(),
+                      ),
+                    );
+                  },
+                  leading: Icon(
+                    Icons.explicit,
+                    color: AppConfig.appColorMain,
+                  ),
+                  title: Text(
+                    "Task Manager",
+                    style: TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.w200,
+                        color: AppConfig.appColorMain),
+                  ),
+                ),
+                Divider(
+                  height: 1,
+                  color: AppConfig.appBarTextColor,
+                ),
+                ListTile(
+                  onTap: () {
+                    debugPrint("Tapped Salary");
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => SalaryList(),
+                      ),
+                    );
+                  },
+                  leading: Icon(
+                    Icons.money,
+                    color: AppConfig.appColorMain,
+                  ),
+                  title: Text(
+                    "Salary Report",
+                    style: TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.w200,
+                        color: AppConfig.appColorMain),
+                  ),
+                ),
+                Divider(
+                  height: 1,
+                  color: AppConfig.appBarTextColor,
+                ),
+                ListTile(
+                  onTap: () {
+                    debugPrint("Tapped Contact");
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => ContactPage(),
+                      ),
+                    );
+                  },
+                  leading: Icon(
+                    Icons.call,
+                    color: AppConfig.appColorMain,
+                  ),
+                  title: Text(
+                    "Contact Us",
+                    style: TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.w200,
+                        color: AppConfig.appColorMain),
+                  ),
+                ),
+                ListTile(
+                  onTap: () {
+                    debugPrint("Tapped About");
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => AboutPage(),
+                      ),
+                    );
+                  },
+                  leading: Icon(
+                    Icons.assignment_late,
+                    color: AppConfig.appColorMain,
+                  ),
+                  title: Text(
+                    "About Us",
+                    style: TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.w200,
+                        color: AppConfig.appColorMain),
+                  ),
+                ),
+                ListTile(
+                  onTap: () {
+                    debugPrint("Tapped Terms");
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => TremsCondition(),
+                      ),
+                    );
+                  },
+                  leading: Icon(
+                    Icons.assignment,
+                    color: AppConfig.appColorMain,
+                  ),
+                  title: Text(
+                    "Terms & Condition",
+                    style: TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.w200,
+                        color: AppConfig.appColorMain),
+                  ),
+                ),
+                ListTile(
+                  onTap: () {
+                    debugPrint("Tapped Salary");
+                    //Navigator.push(context, MaterialPageRoute(builder: (context) => ContactPage(),),);
+                  },
+                  leading: Icon(
+                    Icons.privacy_tip,
+                    color: AppConfig.appColorMain,
+                  ),
+                  title: Text(
+                    "Privacy Policy",
+                    style: TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.w200,
+                        color: AppConfig.appColorMain),
+                  ),
+                ),
+                Divider(
+                  height: 1,
+                  color: AppConfig.appBarTextColor,
+                ),
+                ListTile(
+                  onTap: () async {
+                    debugPrint("Tapped Log Out");
+                    if (uniqId.toString().isNotEmpty) {
+                      SharedPreferences sharedPreferences =
+                          await SharedPreferences.getInstance();
+                      sharedPreferences.setBool("loggedIn", false);
+                      Navigator.pushReplacement(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => MyLogin2(),
+                        ),
+                      );
+                    }
+                    //Navigator.push(context, MaterialPageRoute(builder: (context) => ContactPage(),),);
+                  },
+                  leading: Icon(Icons.exit_to_app, color: AppConfig.buttonColor),
+                  title: Text(
+                    "Log Out",
+                    style: TextStyle(color: AppConfig.appBarTextColor),
+                  ),
+                ),
+              ],
+            ),
+          )),
     );
   }
 }
@@ -525,7 +547,7 @@ class _CustomDrawerState extends State<CustomDrawer> {
       scrollDirection: Axis.vertical,
       physics: AlwaysScrollableScrollPhysics(),
       child: Container(
-        color: Colors.blue[1000],
+        color: AppConfig.appColorMain,
         width: mediaQuery.size.width * 0.60,
         child: Column(
           children: [
@@ -575,14 +597,14 @@ class _CustomDrawerState extends State<CustomDrawer> {
                             style: TextStyle(
                                 fontSize: 18,
                                 fontWeight: FontWeight.bold,
-                                color: Colors.blue[1000])),
+                                color: AppConfig.appColorMain)),
                     userphn == null
                         ? Text("**********")
                         : Text("$userphn",
                             style: TextStyle(
                                 fontSize: 18,
                                 fontWeight: FontWeight.bold,
-                                color: Colors.blue[1000])),
+                                color: AppConfig.appColorMain)),
                     SizedBox(
                       height: 10,
                     ),
@@ -645,7 +667,7 @@ class _CustomDrawerState extends State<CustomDrawer> {
             ),
             Divider(
               height: 1,
-              color: Colors.deepOrange,
+              color: AppConfig.appBarTextColor,
             ),
             ListTile(
               onTap: () {
@@ -725,7 +747,7 @@ class _CustomDrawerState extends State<CustomDrawer> {
             ),
             Divider(
               height: 1,
-              color: Colors.deepOrange,
+              color: AppConfig.appBarTextColor,
             ),
             ListTile(
               onTap: () {
@@ -748,7 +770,7 @@ class _CustomDrawerState extends State<CustomDrawer> {
             ),
             Divider(
               height: 1,
-              color: Colors.deepOrange,
+              color: AppConfig.appBarTextColor,
             ),
             ListTile(
               onTap: () {
@@ -771,7 +793,7 @@ class _CustomDrawerState extends State<CustomDrawer> {
             ),
             Divider(
               height: 1,
-              color: Colors.deepOrange,
+              color: AppConfig.appBarTextColor,
             ),
             ListTile(
               onTap: () {
@@ -846,7 +868,7 @@ class _CustomDrawerState extends State<CustomDrawer> {
             ),
             Divider(
               height: 1,
-              color: Colors.deepOrange,
+              color: AppConfig.appBarTextColor,
             ),
             ListTile(
               onTap: () async {

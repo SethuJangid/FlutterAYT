@@ -294,8 +294,21 @@ class newsFeedsState extends State<newsFeeds> {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                   children: [
-                                    Text(article.title,style: TextStyle(fontSize: 15,color: Colors.black,fontWeight: FontWeight.bold),maxLines: 2,),
-                                    Text(article.description,style: TextStyle(fontSize: 12,color: Colors.black),maxLines: 2,),
+                                    Container(
+                                      width: 200,
+                                      child: Text(article.title,
+                                      style: TextStyle(fontSize: 15,color: Colors.black,fontWeight: FontWeight.bold),
+                                        maxLines: 2,
+                                      )
+                                    ),
+                                    Container(
+                                      width: 200,
+                                      child: Text(
+                                        article.description,
+                                        style: TextStyle(fontSize: 12,color: Colors.black),
+                                        maxLines: 2,
+                                      ),
+                                    ),
                                   ],
                                 ),
                               )

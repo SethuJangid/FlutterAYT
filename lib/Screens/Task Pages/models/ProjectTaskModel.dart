@@ -1,11 +1,15 @@
+// To parse this JSON data, do
+//
+//     final projectTaskModel = projectTaskModelFromJson(jsonString);
+
 import 'dart:convert';
 
-GeneralTaskModel generalTaskModelFromJson(String str) => GeneralTaskModel.fromJson(json.decode(str));
+ProjectTaskModel projectTaskModelFromJson(String str) => ProjectTaskModel.fromJson(json.decode(str));
 
-String generalTaskModelToJson(GeneralTaskModel data) => json.encode(data.toJson());
+String projectTaskModelToJson(ProjectTaskModel data) => json.encode(data.toJson());
 
-class GeneralTaskModel {
-  GeneralTaskModel({
+class ProjectTaskModel {
+  ProjectTaskModel({
     this.status,
     this.msg,
     this.path,
@@ -17,7 +21,7 @@ class GeneralTaskModel {
   String path;
   List<Datum> data;
 
-  factory GeneralTaskModel.fromJson(Map<String, dynamic> json) => GeneralTaskModel(
+  factory ProjectTaskModel.fromJson(Map<String, dynamic> json) => ProjectTaskModel(
     status: json["status"],
     msg: json["msg"],
     path: json["path"],
@@ -36,15 +40,17 @@ class Datum {
   Datum({
     this.id,
     this.name,
-    this.description,
-    this.documents,
+    this.detail,
+    this.requirement,
     this.startTime,
     this.endTime,
-    this.employeeId,
-    this.priorityId,
-    this.empComplete,
-    this.completeDate,
-    this.lateSubmitted,
+    this.documents,
+    this.projectCost,
+    this.clientName,
+    this.clientEmail,
+    this.clientPhone,
+    this.clientAddress,
+    this.projectManagerId,
     this.status,
     this.deleted,
     this.date,
@@ -52,15 +58,17 @@ class Datum {
 
   String id;
   String name;
-  String description;
-  String documents;
+  String detail;
+  String requirement;
   DateTime startTime;
   DateTime endTime;
-  String employeeId;
-  String priorityId;
-  String empComplete;
-  String completeDate;
-  String lateSubmitted;
+  String documents;
+  String projectCost;
+  String clientName;
+  String clientEmail;
+  String clientPhone;
+  String clientAddress;
+  String projectManagerId;
   String status;
   String deleted;
   String date;
@@ -68,15 +76,17 @@ class Datum {
   factory Datum.fromJson(Map<String, dynamic> json) => Datum(
     id: json["id"],
     name: json["name"],
-    description: json["description"],
-    documents: json["documents"],
+    detail: json["detail"],
+    requirement: json["requirement"],
     startTime: DateTime.parse(json["start_time"]),
     endTime: DateTime.parse(json["end_time"]),
-    employeeId: json["employee_id"],
-    priorityId: json["priority_id"],
-    empComplete: json["emp_complete"],
-    completeDate: json["complete_date"],
-    lateSubmitted: json["late_submitted"],
+    documents: json["documents"],
+    projectCost: json["project_cost"],
+    clientName: json["client_name"],
+    clientEmail: json["client_email"],
+    clientPhone: json["client_phone"],
+    clientAddress: json["client_address"],
+    projectManagerId: json["project_manager_id"],
     status: json["status"],
     deleted: json["deleted"],
     date: json["date"],
@@ -85,15 +95,17 @@ class Datum {
   Map<String, dynamic> toJson() => {
     "id": id,
     "name": name,
-    "description": description,
-    "documents": documents,
+    "detail": detail,
+    "requirement": requirement,
     "start_time": "${startTime.year.toString().padLeft(4, '0')}-${startTime.month.toString().padLeft(2, '0')}-${startTime.day.toString().padLeft(2, '0')}",
     "end_time": "${endTime.year.toString().padLeft(4, '0')}-${endTime.month.toString().padLeft(2, '0')}-${endTime.day.toString().padLeft(2, '0')}",
-    "employee_id": employeeId,
-    "priority_id": priorityId,
-    "emp_complete": empComplete,
-    "complete_date": completeDate,
-    "late_submitted": lateSubmitted,
+    "documents": documents,
+    "project_cost": projectCost,
+    "client_name": clientName,
+    "client_email": clientEmail,
+    "client_phone": clientPhone,
+    "client_address": clientAddress,
+    "project_manager_id": projectManagerId,
     "status": status,
     "deleted": deleted,
     "date": date,

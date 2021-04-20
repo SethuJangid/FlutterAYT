@@ -1,4 +1,3 @@
-import 'package:AYT_Attendence/Screens/Task%20Pages/widgets/progress_indicator.dart';
 import 'package:flutter/material.dart';
 
 import 'dart:math' as math;
@@ -58,13 +57,13 @@ class ProjectCard extends StatelessWidget {
               SizedBox(
                 height: 4,
               ),
-              FAProgressBar(
+              /*FAProgressBar(
                 size: 4,
                 borderRadius: 2,
                 currentValue: 43,
                 progressColor: Colors.blueAccent,
                 backgroundColor: Color(0xffF0F0F0),
-              ),
+              ),*/
               SizedBox(
                 height: 2,
               ),

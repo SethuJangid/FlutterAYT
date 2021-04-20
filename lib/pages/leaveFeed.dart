@@ -418,8 +418,9 @@ class _leaveFeedState extends State<leaveFeed> {
           ),
         ],
       ),
-    );*/return Column(
-      mainAxisSize: MainAxisSize.min,
+    );*/
+    return Column(
+      mainAxisSize: MainAxisSize.max,
       crossAxisAlignment: CrossAxisAlignment.start,
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: [
@@ -459,6 +460,8 @@ class _leaveFeedState extends State<leaveFeed> {
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: <Widget>[
                           Container(
+                            width: 180,
+                            height: 110,
                             margin: new EdgeInsets.symmetric(horizontal: 10),
                             decoration: BoxDecoration(
                               color: Colors.white70,

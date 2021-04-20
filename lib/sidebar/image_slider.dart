@@ -42,6 +42,13 @@ class FetchFromNetworkState extends State<ImageSlider> {
   ];
 
   @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    print("slider Page");
+  }
+
+  @override
   Widget build(BuildContext context) {
     return FutureBuilder<SliderModel>(
       future: showslider(),

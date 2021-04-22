@@ -14,6 +14,7 @@
         android:name="io.flutter.app.FlutterApplication"
         android:icon="@mipmap/ayt"
         android:label="AYT_Attendence"
+        android:allowBackup="false"
         android:usesCleartextTraffic="true">
         <activity
             android:name=".MainActivity"

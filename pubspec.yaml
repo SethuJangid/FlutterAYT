@@ -13,6 +13,9 @@ dependencies:
   timeline_widget: ^1.0.6
   flutter_plugin_pdf_viewer: ^1.0.7
 
+  multi_image_picker: ^4.7.14
+  flutter_absolute_path: ^1.0.6
+
   carousel_slider: ^2.0.0
   splashscreen: ^1.2.0
   webview_flutter: ^1.0.7

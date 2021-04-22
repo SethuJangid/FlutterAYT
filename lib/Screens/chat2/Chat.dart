@@ -80,7 +80,7 @@ class _ChatState extends State<Chat2> {
       // resizeToAvoidBottomPadding: true,
       resizeToAvoidBottomInset: true,
       appBar: AppBar(
-        backgroundColor: AppConfig.buttonColor,
+        backgroundColor: AppConfig.appColorMain,
         title: Text(widget.userName,style: TextStyle(fontSize: 20,color:AppConfig.appBarTextColor),),
         elevation: 0.0,
         leading: GestureDetector(

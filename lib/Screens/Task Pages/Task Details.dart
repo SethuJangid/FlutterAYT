@@ -198,10 +198,10 @@ class _GeneralTaskDetailPageState extends State<TaskDetailPage> {
                   color: AppConfig.appColorMain,
                 ),
                 Container(
-                  height: 200,
+                  height: 300,
                   child: taskImage(),),
                 SizedBox(
-                  height: 200,
+                  height: 20,
                 ),
               ],
             ),
@@ -215,6 +215,22 @@ class _GeneralTaskDetailPageState extends State<TaskDetailPage> {
       ),
     );
   }
+  List<String> getListItems() {
+    return widget.document.split(',');
+  }
+  var orientation;
+  bool _isLoading = true;
+  PDFDocument doc;
+  void _loadFromUrl() async {
+    setState(() {
+      _isLoading = true;
+    });
+    doc = await PDFDocument.fromURL(
+        widget.document);
+    setState(() {
+      _isLoading = false;
+    });
+  }
   Widget taskImage(){
     List<String> list = getListItems();
     var mylist=GridView.builder(
@@ -226,8 +242,11 @@ class _GeneralTaskDetailPageState extends State<TaskDetailPage> {
         var docu = widget.path+list[index].trim();
         final extension = p.extension(docu);
         print("Extention----->"+extension);
+        if(extension==".pdf"){
+          doc = PDFDocument.fromURL(docu) as PDFDocument;
+        }
         return new Card(
-          child: GridTile(
+          /*child: GridTile(
             child: extension ==".jpg"?IconButton(
               icon: Icon(
                 Icons.image,
@@ -283,7 +302,32 @@ class _GeneralTaskDetailPageState extends State<TaskDetailPage> {
                         )));
               },
             ):
+            extension ==".txt"?IconButton(
+              icon: Icon(
+                Icons.text_format,
+                size: 100,
+              ),
+              onPressed: () {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) =>
+                        ShowPDF(
+                          document: docu,
+                        )));
+              },
+            ):
             Container(),
+            //just for testing, will fill with image later
+          ),*/
+          child: GridTile(
+            child: extension==".pdf"?Center(
+              child: _isLoading ? CircularProgressIndicator()
+                  : PDFViewer(document: doc,),
+            ):
+            extension==".jpg"? Image.network(docu,height:100,width:200,fit: BoxFit.fill,):
+            extension==".jpeg"? Image.network(docu,height:100,width:200,fit: BoxFit.fill,):
+            extension==".png"? Image.network(docu,height:100,width:200,fit: BoxFit.fill,):
+            CircularProgressIndicator()
             //just for testing, will fill with image later
           ),
         );
@@ -291,11 +335,9 @@ class _GeneralTaskDetailPageState extends State<TaskDetailPage> {
     );
     return mylist;
   }
-  List<String> getListItems() {
-    return widget.document.split(',');
-  }
-  var orientation;
+
 }
+/*
 class ShowPDF extends StatefulWidget {
   String document;
   ShowPDF({this.document});
@@ -313,8 +355,12 @@ class _ShowPDFState extends State<ShowPDF> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    _loadFromUrl();
     extension = p.extension(widget.document);
+    if(extension==".pdf"){
+      _loadFromUrl();
+    }
+
+    print("Show Document----->"+widget.document);
   }
 
   void _loadFromUrl() async {
@@ -332,12 +378,20 @@ class _ShowPDFState extends State<ShowPDF> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Task Documents"),
+        backgroundColor: AppConfig.appColorMain,
+        title: Text(
+          "Task Documents",
+          style: TextStyle(color: AppConfig.appBarTextColor),
+        ),
       ),
-      body: Center(
+      body: extension==".pdf"?Center(
         child: _isLoading ? CircularProgressIndicator()
                 : PDFViewer(document: doc,),
-        ),
+        ):
+      extension==".jpg"? Image.network(widget.document,fit: BoxFit.fill,):
+      extension==".jpeg"? Image.network(widget.document,fit: BoxFit.fill,):
+      extension==".png"? Image.network(widget.document,fit: BoxFit.fill,):
+      CircularProgressIndicator()
     );
   }
-}
+}*/

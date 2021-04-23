@@ -103,7 +103,7 @@ class All_API {
   String api_general_task_upload="general_task/emp_request_task_complete";
 
   String api_project_task="project";
-  String api_project_task_upload="employee_expense";
+  String api_project_task_upload="api/task/emp_task_complete";
 
   String api_milestone_list="milestone/milestones_get_by_id/";
 

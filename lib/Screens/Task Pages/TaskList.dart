@@ -15,16 +15,19 @@ import 'package:http/http.dart' as http;
 
 class TaskList extends StatefulWidget {
   String milestoneID;
-  TaskList({this.milestoneID});
+  String imgPath;
+  TaskList({this.milestoneID,this.imgPath});
   @override
   _ProjectTaskScreenState createState() => _ProjectTaskScreenState();
 }
 
 class _ProjectTaskScreenState extends State<TaskList> {
+
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
+    getData();
   }
 
   getData()async{
@@ -148,6 +151,10 @@ class _ProjectTaskScreenState extends State<TaskList> {
                                               startDate: startDate.first,
                                               endDate: endDate.first,
                                               name: task.name,
+                                              description: task.description,
+                                              document: task.documents,
+                                              path: widget.imgPath,
+                                              task_id: task.id,
                                             )
                                         )
                                     );

@@ -1,15 +1,30 @@
+import 'package:AYT_Attendence/Screens/Task%20Pages/GeneralTaskUpload.dart';
 import 'package:AYT_Attendence/Widgets/AppConfig.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_plugin_pdf_viewer/flutter_plugin_pdf_viewer.dart';
+import 'package:path/path.dart' as p;
 
-class GeneralTaskDetailPage extends StatefulWidget{
+class GeneralTaskDetailPage extends StatefulWidget {
   String startDate;
   String endDate;
   String name;
+  String priority;
+  String description;
+  String document;
+  String path;
+  Color taskColor;
+  String task_id;
   GeneralTaskDetailPage({
     this.startDate,
     this.endDate,
-    this.name
+    this.name,
+    this.priority,
+    this.description,
+    this.document,
+    this.path,
+    this.taskColor,
+    this.task_id
   });
   @override
   _GeneralTaskDetailPageState createState() => _GeneralTaskDetailPageState();
@@ -33,60 +48,166 @@ class _GeneralTaskDetailPageState extends State<GeneralTaskDetailPage> {
         child: SingleChildScrollView(
           scrollDirection: Axis.vertical,
           physics: AlwaysScrollableScrollPhysics(),
-          child: Column(
-            mainAxisSize: MainAxisSize.max,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Center(
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 20,vertical: 10),
-                  child: Text(widget.name.toUpperCase()),
+          child: Card(
+            elevation: 5,
+            child: Column(
+              mainAxisSize: MainAxisSize.max,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Container(
+                  decoration: BoxDecoration(
+                      border: Border(
+                          left: BorderSide(
+                              width: 10,
+                              color: widget.taskColor==null?Colors.black:widget.taskColor
+                          )
+                      )
+                  ),
+                  child: ListTile(
+                    title: Text(
+                      widget.name.toUpperCase(),
+                      style: TextStyle(
+                          fontSize: 18,
+                          fontWeight: FontWeight.bold
+                      ),
+                    ),
+                    trailing: Text(widget.priority==null?"":widget.priority),
+                  ),
                 ),
-              ),
-              Divider(
-                height: 1,
-                color: AppConfig.appColorMain,
-              ),
-              Center(
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 20,vertical: 10),
-                  child: Text("Assigned and Expire Date"),
-                ),
-              ),
-              Row(
-                children: [
-                  Icon(Icons.date_range,size: 20),
-                  Text(widget.startDate+" To "+widget.endDate),
-                ],
-              ),
-              Divider(
-                height: 1,
-                color: AppConfig.appColorMain,
-              ),
-              Column(
-                mainAxisSize: MainAxisSize.max,
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 20,vertical: 10),
-                    child: Text("Project Detail"),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 20,vertical: 10),
-                    child: Text("hello this is task 1 for attendance"),
-                  ),
-                  SizedBox(
-                    height: 300,
-                  ),
-                  Divider(
+                Divider(
                     height: 1,
-                    color: AppConfig.appColorMain,
+                    color: widget.taskColor==null?Colors.black:widget.taskColor
+                ),
+                SizedBox(
+                  height: 10,
+                ),
+                Center(
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 20,vertical: 10),
+                    child: Text("Assigned and Expire Date",
+                      style: TextStyle(
+                          fontSize: 15,
+                          fontWeight: FontWeight.bold
+                      ),
+                    ),
                   ),
-                ],
-              ),
-              SizedBox(
-                height: 200,
-              ),
-            ],
+                ),
+                Divider(
+                  height: 1,
+                  color: AppConfig.appColorMain,
+                ),
+                Row(
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Icon(Icons.date_range,size: 30),
+                    ),
+                    Column(
+                      mainAxisSize: MainAxisSize.min,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: <Widget>[
+                        Text.rich(
+                          TextSpan(
+                            style: TextStyle(
+                                fontSize: 17,
+                                color:
+                                Colors.black54),
+                            children: [
+                              TextSpan(
+                                text: widget.startDate,
+                              ),
+                              WidgetSpan(
+                                child: Icon(
+                                    Icons
+                                        .arrow_right_sharp,
+                                    color: Colors
+                                        .black54),
+                              ),
+                              TextSpan(
+                                text: widget.endDate,
+                              )
+                            ],
+                          ),
+                        )
+                      ],
+                    ),
+                  ],
+                ),
+                Center(
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 20,vertical: 10),
+                    child: Text(
+                      "Task Created Date",
+                      style: TextStyle(
+                          fontSize: 15,
+                          fontWeight: FontWeight.bold
+                      ),
+                    ),
+                  ),
+                ),
+                Divider(
+                  height: 1,
+                  color: AppConfig.appColorMain,
+                ),
+                Row(
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Icon(Icons.date_range,size: 30),
+                    ),
+                    Text(
+                      widget.startDate,
+                      style: TextStyle(
+                          fontSize: 17,
+                          color:
+                          Colors.black54),
+                    ),
+                  ],
+                ),
+                Center(
+                  child: Text(
+                    "Detail of Project",
+                    style: TextStyle(
+                        fontSize: 17,
+                        color: Colors.black,
+                        fontWeight: FontWeight.bold
+                    ),
+                  ),
+                ),
+                Divider(
+                  height: 1,
+                  color: AppConfig.appColorMain,
+                ),
+                Center(
+                  child: Text(
+                    widget.description==null?"":widget.description,
+                  ),
+                ),
+                SizedBox(
+                  height: 300,
+                ),
+                Center(
+                  child: Text(
+                    "Attachments",
+                    style: TextStyle(
+                        fontSize: 17,
+                        color: Colors.black,
+                        fontWeight: FontWeight.bold
+                    ),
+                  ),
+                ),
+                Divider(
+                  height: 1,
+                  color: AppConfig.appColorMain,
+                ),
+                Container(
+                  height: 300,
+                  child: taskImage(),),
+                SizedBox(
+                  height: 20,
+                ),
+              ],
+            ),
           ),
         ),
       ),
@@ -94,7 +215,139 @@ class _GeneralTaskDetailPageState extends State<GeneralTaskDetailPage> {
         backgroundColor: AppConfig.buttonColor,
         foregroundColor: AppConfig.appColorMain,
         child: Icon(Icons.add,size: 20,),
+        onPressed: (){
+          Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) =>
+                  GeneralTaskUpload(
+                    name: widget.name,
+                    task_id: widget.task_id,
+                  )
+              )
+          );
+        },
       ),
     );
   }
+  List<String> getListItems() {
+    return widget.document.split(',');
+  }
+  var orientation;
+  bool _isLoading = true;
+  PDFDocument doc;
+  void _loadFromUrl() async {
+    setState(() {
+      _isLoading = true;
+    });
+    doc = await PDFDocument.fromURL(
+        widget.document);
+    setState(() {
+      _isLoading = false;
+    });
+  }
+  Widget taskImage(){
+    List<String> list = getListItems();
+    var mylist=GridView.builder(
+      itemCount: list.length,
+      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+          crossAxisCount: (orientation == Orientation.portrait) ? 2 : 3),
+      itemBuilder: (BuildContext context, int index) {
+        print("Documents---->"+widget.path+"----------"+list[index].trim());
+        var docu = widget.path+list[index].trim();
+        final extension = p.extension(docu);
+        print("Extention----->"+extension);
+        if(extension==".pdf"){
+          doc = PDFDocument.fromURL(docu) as PDFDocument;
+        }
+        return new Card(
+          /*child: GridTile(
+            child: extension ==".jpg"?IconButton(
+              icon: Icon(
+                Icons.image,
+                size: 100,
+              ),
+              onPressed: () {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) =>
+                        ShowPDF(
+                          document: docu,
+                        )));
+              },
+            ):extension ==".pdf"?IconButton(
+              icon: Icon(
+                Icons.picture_as_pdf,
+                size: 100,
+              ),
+              onPressed: () {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) =>
+                        ShowPDF(
+                          document: docu,
+                        )));
+              },
+            ):
+            extension ==".png"?IconButton(
+              icon: Icon(
+                Icons.image,
+                size: 100,
+              ),
+              onPressed: () {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) =>
+                        ShowPDF(
+                          document: docu,
+                        )));
+              },
+            ):
+            extension ==".jpeg"?IconButton(
+              icon: Icon(
+                Icons.image,
+                size: 100,
+              ),
+              onPressed: () {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) =>
+                        ShowPDF(
+                          document: docu,
+                        )));
+              },
+            ):
+            extension ==".txt"?IconButton(
+              icon: Icon(
+                Icons.text_format,
+                size: 100,
+              ),
+              onPressed: () {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) =>
+                        ShowPDF(
+                          document: docu,
+                        )));
+              },
+            ):
+            Container(),
+            //just for testing, will fill with image later
+          ),*/
+          child: GridTile(
+              child: extension==".pdf"?Center(
+                child: _isLoading ? CircularProgressIndicator()
+                    : PDFViewer(document: doc,),
+              ):
+              extension==".jpg"? Image.network(docu,height:100,width:200,fit: BoxFit.fill,):
+              extension==".jpeg"? Image.network(docu,height:100,width:200,fit: BoxFit.fill,):
+              extension==".png"? Image.network(docu,height:100,width:200,fit: BoxFit.fill,):
+              CircularProgressIndicator()
+            //just for testing, will fill with image later
+          ),
+        );
+      },
+    );
+    return mylist;
+  }
+
 }

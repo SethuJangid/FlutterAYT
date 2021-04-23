@@ -14,7 +14,8 @@ import 'package:http/http.dart' as http;
 
 class MilestonesPage extends StatefulWidget {
   String projectID;
-  MilestonesPage({this.projectID});
+  String path;
+  MilestonesPage({this.projectID,this.path});
   @override
   _ProjectTaskScreenState createState() => _ProjectTaskScreenState();
 }
@@ -145,6 +146,7 @@ class _ProjectTaskScreenState extends State<MilestonesPage> {
                                         MaterialPageRoute(builder: (context) =>
                                             TaskList(
                                               milestoneID: task.id,
+                                                imgPath: widget.path,
                                             )));
                                   },
                                   child: Icon(

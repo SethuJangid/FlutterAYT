@@ -137,8 +137,8 @@ class MyHomePageState extends State<MyHomePage> {
                 /*appBar: AppBar(
                     title: Text('Raindrop App'),
                   ),*/
-                  //body: SplashScreenPage()
-                  body: TabItem()
+                  body: SplashScreenPage()
+                  //body: TabItem()
               ),
               IgnorePointer(
                   child: AnimationScreen(

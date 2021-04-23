@@ -27,6 +27,8 @@ class AppConfig {
   static String appIcon ;
   static String appIconDefault = "assets/payroll_app_icon.png";
 
+  static String mediaIcon = "https://www.pinclipart.com/picdir/middle/126-1266771_post-page-to-add-pictures-comments-add-post.png";
+
   static String iconPending = "assets/pending_ap.png";
   static String iconReject = "assets/rejected_ap.png";
   static String iconApproved = "assets/approved_ap.png";

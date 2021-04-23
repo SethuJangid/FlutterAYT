@@ -18,16 +18,19 @@ class ProjectTaskScreen extends StatefulWidget {
 
 class _ProjectTaskScreenState extends State<ProjectTaskScreen> {
   String uniq_id;
+  SharedPreferences sharedPreferences;
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
+    getData();
   }
 
   getData()async{
-    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+    sharedPreferences = await SharedPreferences.getInstance();
     setState(() {
       uniq_id = sharedPreferences.getString("unique_id");
+
     });
   }
 
@@ -59,6 +62,8 @@ class _ProjectTaskScreenState extends State<ProjectTaskScreen> {
         future: projectTask(),
         builder: (context, snapshot) {
           if (snapshot.hasData) {
+            var imagePath = All_API().baseurl_img+snapshot.data.path+"/";
+            sharedPreferences.setString("project_path", imagePath);
             return ListView.builder(
                 itemCount: snapshot.data.data.length, //snapshot.data.data.length,
                 shrinkWrap: true,
@@ -141,7 +146,7 @@ class _ProjectTaskScreenState extends State<ProjectTaskScreen> {
                                     Navigator.push(
                                         context,
                                         MaterialPageRoute(builder: (context) =>
-                                            MilestonesPage(projectID: task.id,)
+                                            MilestonesPage(projectID: task.id,path: imagePath,)
                                         )
                                     );
                                   },

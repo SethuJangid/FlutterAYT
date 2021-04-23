@@ -1,3 +1,5 @@
+import 'package:AYT_Attendence/Screens/Task%20Pages/GeneralTaskUpload.dart';
+import 'package:AYT_Attendence/Screens/Task%20Pages/ProjectTaskUpload.dart';
 import 'package:AYT_Attendence/Widgets/AppConfig.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -13,7 +15,7 @@ class TaskDetailPage extends StatefulWidget{
   String description;
   String document;
   String path;
-  Color taskColor;
+  String task_id;
   TaskDetailPage({
     this.startDate,
     this.endDate,
@@ -22,7 +24,7 @@ class TaskDetailPage extends StatefulWidget{
     this.description,
     this.document,
     this.path,
-    this.taskColor
+    this.task_id
   });
   @override
   _GeneralTaskDetailPageState createState() => _GeneralTaskDetailPageState();
@@ -52,28 +54,19 @@ class _GeneralTaskDetailPageState extends State<TaskDetailPage> {
               mainAxisSize: MainAxisSize.max,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Container(
-                  decoration: BoxDecoration(
-                      border: Border(
-                          left: BorderSide(
-                              width: 10,
-                              color: widget.taskColor)
-                      )
-                  ),
-                  child: ListTile(
-                    title: Text(
-                      widget.name.toUpperCase(),
-                      style: TextStyle(
-                          fontSize: 18,
-                          fontWeight: FontWeight.bold
-                      ),
+                ListTile(
+                  title: Text(
+                    widget.name.toUpperCase(),
+                    style: TextStyle(
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold
                     ),
-                    trailing: Text(widget.priority),
                   ),
+                  trailing: Text(widget.priority==null?"":widget.priority),
                 ),
                 Divider(
                   height: 1,
-                  color: widget.taskColor,
+                  color: AppConfig.colorBlack
                 ),
                 SizedBox(
                   height: 10,
@@ -177,7 +170,7 @@ class _GeneralTaskDetailPageState extends State<TaskDetailPage> {
                 ),
                 Center(
                   child: Text(
-                    widget.description,
+                    widget.description==null?"":widget.description,
                   ),
                 ),
                 SizedBox(
@@ -212,6 +205,17 @@ class _GeneralTaskDetailPageState extends State<TaskDetailPage> {
         backgroundColor: AppConfig.buttonColor,
         foregroundColor: AppConfig.appColorMain,
         child: Icon(Icons.add,size: 20,),
+        onPressed: (){
+          Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) =>
+                  ProjectTaskUpload(
+                    name: widget.name,
+                    task_id: widget.task_id,
+                  )
+              )
+          );
+        },
       ),
     );
   }
@@ -238,7 +242,7 @@ class _GeneralTaskDetailPageState extends State<TaskDetailPage> {
       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
           crossAxisCount: (orientation == Orientation.portrait) ? 2 : 3),
       itemBuilder: (BuildContext context, int index) {
-        print("Documents---->"+list[index].trim());
+        print("Documents---->"+widget.path+"----------"+list[index].trim());
         var docu = widget.path+list[index].trim();
         final extension = p.extension(docu);
         print("Extention----->"+extension);

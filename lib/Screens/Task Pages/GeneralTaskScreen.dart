@@ -21,15 +21,18 @@ class GeneralTaskScreen extends StatefulWidget {
 
 class GeneralTaskState extends State<GeneralTaskScreen> {
 
+  SharedPreferences sharedPreferences;
+  String uniq_id;
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
+    getData();
   }
   getData()async{
-    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+     sharedPreferences = await SharedPreferences.getInstance();
     setState(() {
-
+      uniq_id = sharedPreferences.getString("unique_id");
     });
   }
 
@@ -127,12 +130,14 @@ class GeneralTaskState extends State<GeneralTaskScreen> {
     );
   }
 
-  Widget _widgetWeather() {
+  Widget _widgetWeather(){
     return FutureBuilder<GeneralTaskModel>(
       future: generalTask(),
       builder: (context, snapshot) {
         if (snapshot.hasData) {
           var imgPath = All_API().baseurl_img+snapshot.data.path;
+          sharedPreferences.setString("task_path", imgPath);
+          print("path ---------->"+imgPath);
           return ListView.builder(
               itemCount: snapshot.data.data.length, //snapshot.data.data.length,
               shrinkWrap: true,
@@ -224,7 +229,7 @@ class GeneralTaskState extends State<GeneralTaskScreen> {
                                   Navigator.push(
                                       context,
                                       MaterialPageRoute(builder: (context) =>
-                                          TaskDetailPage(
+                                          GeneralTaskDetailPage(
                                             startDate: startDate.first,
                                             endDate: endDate.first,
                                             name: task.name,
@@ -247,7 +252,8 @@ class GeneralTaskState extends State<GeneralTaskScreen> {
                                                 : "",
                                             description: task.description,
                                             document: task.documents,
-                                            path: imgPath+"/"
+                                            path: imgPath+"/",
+                                            task_id: task.id,
                                           )
                                       )
                                   );
@@ -298,7 +304,7 @@ class GeneralTaskState extends State<GeneralTaskScreen> {
       All_API().key: All_API().keyvalue,
     };
     var request = http.Request('GET', Uri.parse(All_API().baseurl+All_API().api_general_task));
-    request.body = '''{"employee_id":"NODI3C7X1H9M3K9V3Q2E5Z"}''';
+    request.body = '''{"employee_id":"$uniq_id"}''';
 
     request.headers.addAll(headers);
     request.followRedirects = false;
